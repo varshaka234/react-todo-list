@@ -1,73 +1,74 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import TodoForm from './components/TodoForm.jsx'
-import TodoList from './components/TodoList.jsx'
+import { useEffect, useState } from "react";
+import "./App.css";
+import TodoForm from "./components/TodoForm.jsx";
+import TodoList from "./components/TodoList.jsx";
 
-const STORAGE_KEY = 'focus-list-tasks'
-const FILTERS = ['All', 'Active', 'Completed']
+const STORAGE_KEY = "focus-list-tasks";
+const FILTERS = ["All", "Active", "Completed"];
 
 function loadTasks() {
   try {
-    const savedTasks = localStorage.getItem(STORAGE_KEY)
-    if (!savedTasks) return []
+    const savedTasks = localStorage.getItem(STORAGE_KEY);
+    if (!savedTasks) return [];
 
-    const parsedTasks = JSON.parse(savedTasks)
-    if (!Array.isArray(parsedTasks)) return []
+    const parsedTasks = JSON.parse(savedTasks);
+    if (!Array.isArray(parsedTasks)) return [];
 
-    const seenIds = new Set()
+    const seenIds = new Set();
 
     return parsedTasks.reduce((validTasks, task) => {
       if (
         !task ||
-        typeof task.id !== 'string' ||
-        typeof task.text !== 'string' ||
-        typeof task.completed !== 'boolean'
+        typeof task.id !== "string" ||
+        typeof task.text !== "string" ||
+        typeof task.completed !== "boolean"
       ) {
-        return validTasks
+        return validTasks;
       }
 
-      const id = task.id.trim()
-      const text = task.text.trim()
-      if (!id || !text || seenIds.has(id)) return validTasks
+      const id = task.id.trim();
+      const text = task.text.trim();
+      if (!id || !text || seenIds.has(id)) return validTasks;
 
-      seenIds.add(id)
-      validTasks.push({ id, text, completed: task.completed })
-      return validTasks
-    }, [])
+      seenIds.add(id);
+      validTasks.push({ id, text, completed: task.completed });
+      return validTasks;
+    }, []);
   } catch {
-    return []
+    return [];
   }
 }
 
 function App() {
-  const [tasks, setTasks] = useState(loadTasks)
-  const [filter, setFilter] = useState('All')
+  const [tasks, setTasks] = useState(loadTasks);
+  const [filter, setFilter] = useState("All");
 
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks))
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
     } catch {
       // The app remains usable when browser storage is unavailable or full.
     }
-  }, [tasks])
+  }, [tasks]);
 
-  const completedCount = tasks.filter((task) => task.completed).length
-  const activeCount = tasks.length - completedCount
+  const completedCount = tasks.filter((task) => task.completed).length;
+  const activeCount = tasks.length - completedCount;
   const completionPercent = tasks.length
     ? Math.round((completedCount / tasks.length) * 100)
-    : 0
+    : 0;
   const visibleTasks = tasks.filter((task) => {
-    if (filter === 'Active') return !task.completed
-    if (filter === 'Completed') return task.completed
-    return true
-  })
+    if (filter === "Active") return !task.completed;
+    if (filter === "Completed") return task.completed;
+    return true;
+  });
 
   function addTask(text) {
-    const id = globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`
+    const id =
+      globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`;
     setTasks((currentTasks) => [
       ...currentTasks,
       { id, text, completed: false },
-    ])
+    ]);
   }
 
   function toggleTask(taskId) {
@@ -75,22 +76,24 @@ function App() {
       currentTasks.map((task) =>
         task.id === taskId ? { ...task, completed: !task.completed } : task,
       ),
-    )
+    );
   }
 
   function deleteTask(taskId) {
-    setTasks((currentTasks) => currentTasks.filter((task) => task.id !== taskId))
+    setTasks((currentTasks) =>
+      currentTasks.filter((task) => task.id !== taskId),
+    );
   }
 
   function clearCompleted() {
-    setTasks((currentTasks) => currentTasks.filter((task) => !task.completed))
+    setTasks((currentTasks) => currentTasks.filter((task) => !task.completed));
   }
 
-  const today = new Intl.DateTimeFormat('en', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-  }).format(new Date())
+  const today = new Intl.DateTimeFormat("en", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  }).format(new Date());
 
   return (
     <div className="app-shell">
@@ -101,16 +104,26 @@ function App() {
               <path d="m5 12 4.2 4.2L19 6.5" />
             </svg>
           </span>
-          <span>daymark<span className="brand-period">.</span></span>
+          <span>
+            daymark<span className="brand-period">.</span>
+          </span>
         </a>
-        <span className="topbar-note"><span className="online-dot" /> A little progress, every day</span>
+        <span className="topbar-note">
+          <span className="online-dot" /> A little progress, every day
+        </span>
       </header>
 
       <main id="home">
         <section className="intro" aria-labelledby="page-title">
           <p className="eyebrow">{today}</p>
-          <h1 id="page-title">Make space for<br className="desktop-break" /> what matters.</h1>
-          <p className="intro-copy">A calmer way to keep track of the things you want to get done.</p>
+          <h1 id="page-title">
+            Make space for
+            <br className="desktop-break" /> what matters.
+          </h1>
+          <p className="intro-copy">
+            A simple To-Do List application to organize your daily tasks, track
+            progress, and stay productive.
+          </p>
         </section>
 
         <section className="dashboard" aria-label="Task dashboard">
@@ -157,17 +170,21 @@ function App() {
                 <h2 id="tasks-heading">Your tasks</h2>
               </div>
               <span className="remaining-label">
-                {activeCount === 1 ? '1 task' : `${activeCount} tasks`} left
+                {activeCount === 1 ? "1 task" : `${activeCount} tasks`} left
               </span>
             </div>
 
             <TodoForm onAddTask={addTask} />
 
             <div className="list-toolbar">
-              <div className="filter-tabs" role="group" aria-label="Filter tasks">
+              <div
+                className="filter-tabs"
+                role="group"
+                aria-label="Filter tasks"
+              >
                 {FILTERS.map((filterName) => (
                   <button
-                    className={`filter-button${filter === filterName ? ' selected' : ''}`}
+                    className={`filter-button${filter === filterName ? " selected" : ""}`}
                     key={filterName}
                     type="button"
                     onClick={() => setFilter(filterName)}
@@ -175,13 +192,21 @@ function App() {
                   >
                     {filterName}
                     <span className="filter-count">
-                      {filterName === 'All' ? tasks.length : filterName === 'Active' ? activeCount : completedCount}
+                      {filterName === "All"
+                        ? tasks.length
+                        : filterName === "Active"
+                          ? activeCount
+                          : completedCount}
                     </span>
                   </button>
                 ))}
               </div>
               {completedCount > 0 && (
-                <button className="clear-button" type="button" onClick={clearCompleted}>
+                <button
+                  className="clear-button"
+                  type="button"
+                  onClick={clearCompleted}
+                >
                   Clear completed
                 </button>
               )}
@@ -214,7 +239,9 @@ function App() {
                 </div>
                 <div className="panel-footer">
                   <span>Small steps add up.</span>
-                  <span>{completedCount} of {tasks.length} done</span>
+                  <span>
+                    {completedCount} of {tasks.length} done
+                  </span>
                 </div>
               </>
             )}
@@ -226,7 +253,7 @@ function App() {
         <span>Your tasks stay on this device.</span>
       </footer>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

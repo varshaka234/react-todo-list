@@ -1,4 +1,4 @@
-# React To-Do List Application
+# # Daymark – React To-Do List Application
 
 A simple, modern, and responsive To-Do List application built using React and Vite as part of the React Developer Internship assignment for Netlyft Technologies.
 
@@ -112,6 +112,7 @@ npm run preview
 ## Author
 
 Varsha K A
+
 
 ## Acknowledgement
 
