@@ -1,75 +1,118 @@
-# Daymark To-Do List
+# React To-Do List Application
 
-A calm, responsive task dashboard built with React and Vite. Add tasks, track what is active or complete, and keep your list available between visits with browser localStorage.
+A simple, modern, and responsive To-Do List application built using React and Vite as part of the React Developer Internship assignment for Netlyft Technologies.
+
+## Live Demo
+
+[View Live Application](PASTE_YOUR_VERCEL_URL_HERE)
+
+## GitHub Repository
+
+https://github.com/varshaka234/react-todo-list
 
 ## Features
 
-- Add tasks with the button or by pressing **Enter**.
-- Whitespace-only tasks are rejected; surrounding whitespace is trimmed.
-- Mark a task active or completed, or delete it individually.
-- Filter the list by **All**, **Active**, or **Completed**.
-- View total, active, and completed task counts at a glance.
-- Clear all completed tasks in one action.
-- Friendly empty states, responsive layout, keyboard focus indicators, and reduced-motion support.
-- Tasks are saved in localStorage and restored when the app is reopened or refreshed.
-- No backend, database, or UI framework required.
+- Add new tasks.
+- View all added tasks.
+- Mark tasks as completed or pending.
+- Delete individual tasks.
+- Filter tasks by All, Active, and Completed.
+- Display task statistics.
+- Store tasks using browser Local Storage.
+- Restore tasks after refreshing the page.
+- Responsive design for desktop, tablet, and mobile devices.
+- Prevent adding empty tasks.
 
-## Requirements
+## Technologies Used
 
-- Node.js 20.19+ or 22.12+ (required by the installed Vite version)
+- React.js
+- JavaScript (ES6+)
+- React Hooks (useState, useEffect)
+- HTML5
+- CSS3
+- Vite
+- Local Storage
+- Git and GitHub
+
+## Project Structure
+
+```text
+todo-list/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── TodoForm.jsx
+│   │   ├── TodoItem.jsx
+│   │   └── TodoList.jsx
+│   ├── App.jsx
+│   ├── App.css
+│   ├── index.css
+│   └── main.jsx
+├── index.html
+├── package.json
+├── package-lock.json
+└── vite.config.js
+```
+
+## Installation and Setup
+
+### Prerequisites
+
+- Node.js
 - npm
+- Git
 
-## Installation
+### 1. Clone the repository
 
-From the `todo-list` project directory, install dependencies:
+```bash
+git clone https://github.com/varshaka234/react-todo-list.git
+```
 
-```sh
+### 2. Navigate to the project directory
+
+```bash
+cd react-todo-list
+```
+
+### 3. Install dependencies
+
+```bash
 npm install
 ```
 
-## Run locally
+### 4. Start the development server
 
-Start the Vite development server:
-
-```sh
+```bash
 npm run dev
 ```
 
-Open the local URL printed by Vite (typically `http://localhost:5173`).
+### 5. Open the application
 
-## Build and lint
+Open the local URL displayed in your terminal, usually:
 
-Create a production build:
+```text
+http://localhost:5173
+```
 
-```sh
+## Build for Production
+
+To create a production build, run:
+
+```bash
 npm run build
 ```
 
-Run ESLint:
+To preview the production build locally:
 
-```sh
-npm run lint
-```
-
-Preview the production build locally:
-
-```sh
+```bash
 npm run preview
 ```
 
-## Project structure
+## Author
 
-```text
-src/
-  components/
-    TodoForm.jsx   # Validated task input and submit behavior
-    TodoItem.jsx   # Completion and delete controls for one task
-    TodoList.jsx   # Filtered task list and empty states
-  App.jsx          # Task state, filtering, counts, and localStorage
-  App.css          # Dashboard and responsive component styles
-  index.css        # Global reset and design tokens
-```
+Varsha K A
 
-## Persistence
+## Acknowledgement
 
-Tasks are stored in the browser under the `focus-list-tasks` localStorage key. Data stays in the current browser profile and is not synced to a server. Clearing browser site data removes the saved tasks.
+Developed as part of the React Developer Internship assignment for Netlyft Technologies.
